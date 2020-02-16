@@ -14,6 +14,8 @@
 
     try {
         $page = file_get_contents('http://detal77.ru/price/CAT_ALL.html');
+        $ser_page = serialize($page);
+        file_put_contents($_SERVER['DOCUMENT_ROOT'].'/page_for_parse.php', $ser_page);
     }
     catch (Exception $e) {
         echo 'When file get contents, exception is: <br>';
@@ -56,6 +58,8 @@
 
     /*PARSING SECTION END*/
 
+    unset($page);
+    unset($ser_page);
     unset($document);
     unset($page);
 

@@ -3,7 +3,8 @@
     require('phpQuery.php');
 
     try {
-        $page = file_get_contents('http://detal77.ru/price/CAT_ALL.html');
+        $ser_page = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/page_for_parse.php');
+        $page = unserialize($ser_page);
     }
     catch (Exception $e) {
         echo 'When file get contents, exception is: <br>';
@@ -44,6 +45,9 @@
 
     /*PARSING SECTION END*/
 
+
+    unset($page);
+    unset($ser_page);
     unset($document);
     unset($page);
 
@@ -94,18 +98,17 @@
         define('TELEGRAM_TOKEN', '922432078:AAEVzPT6ZH4CXo-BYqsVsYrtxUNluxPsgTA');
 
         define('TELEGRAM_CHATID', '436106286');
-        $sssss = 0;
-        if(count($all_array) > 0){
+        if(count($all_array) < 200 && count($all_array) > 0){
             message_to_telegram('Добавлено : '.date("m.d.y H:i:s"));
             foreach ($all_array as $res) {
-                //message_to_telegram($res);
-                $sssss++;
+                message_to_telegram($res);
             }
-            message_to_telegram($sssss);
             message_to_telegram('---------------------');
             unset($all_array);
         }
-
+        if (count($all_array) >= 200) {
+            message_to_telegram2('БОЛЬШОЕ КОЛИЧЕСТВО ТОВАРОВ: ' . count($all_array));
+        }
         function message_to_telegram($text)
         {
             $ch = curl_init();

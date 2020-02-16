@@ -91,3 +91,4 @@
     </script>
 </body>
 </html>
+<? echo $_SERVER['DOCUMENT_ROOT']; ?>
